@@ -11,7 +11,7 @@ const Body = () =>{
     const [searchText, setSearchText] = useState("");
     const RestaurantCardPromoted = withPromotedLabel(RestaurentCard);
 
-    console.log(listOfRestaurants);
+    // console.log(filteredRestaurants);
     useEffect(()=> {
         fetchData();
     },[])
@@ -19,8 +19,8 @@ const Body = () =>{
     const fetchData = async () =>{
         const data = await fetch ("https://www.swiggy.com/dapi/restaurants/list/v5?lat=13.0529437&lng=77.6315163&is-seo-homepage-enabled=true&page_type=DESKTOP_WEB_LISTING");
         const json = await data.json();
-        setListOfRestaurants(json?.data?.cards[4]?.card?.card?.gridElements?.infoWithStyle?.restaurants);
-        setFilteredRestaurants(json?.data?.cards[4]?.card?.card?.gridElements?.infoWithStyle?.restaurants);
+        setListOfRestaurants(json?.data?.cards[2]?.card?.card?.gridElements?.infoWithStyle?.restaurants);
+        setFilteredRestaurants(json?.data?.cards[2]?.card?.card?.gridElements?.infoWithStyle?.restaurants);
     }
 
     const onlineStatus = useOnlineStatus();
@@ -64,9 +64,9 @@ const Body = () =>{
             {filteredRestaurants.map((restaurent) =>( 
             <Link key={restaurent?.info.id} to={"/restaurants/"+restaurent?.info.id}>
                 {restaurent?.info?.isOpen ? (
-                   < RestaurantCardPromoted resData={restaurent} />
+                   < RestaurantCardPromoted resData={restaurent.info} />
                     ):(
-                        <RestaurentCard  resData={restaurent} />
+                        <RestaurentCard  resData={restaurent.info} />
                     )}
                 </Link>
             ))}
